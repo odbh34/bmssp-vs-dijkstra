@@ -1,0 +1,13 @@
+# Ejecutables
+generate_graphs
+benchmark
+
+# Archivos compilados
+*.o
+
+# Resultados grandes (opcional)
+data/*.gr
+
+# Python
+__pycache__/
+*.pyc

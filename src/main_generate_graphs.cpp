@@ -1,0 +1,37 @@
+#include "graph_generator.hpp"
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <filesystem>
+
+using T = long long;
+namespace fs = std::filesystem;
+
+int main() {
+    // Crear carpetas si no existen
+    fs::create_directories("data");
+
+    std::vector<int> sizes = {100, 500, 1000, 5000};
+    std::vector<std::string> densities = {"low", "medium", "high"};
+
+    GraphGenerator<T> gen(42);  // seed fijo para reproducibilidad
+
+    for (int V : sizes) {
+        gen.generate_low_density(V);
+        gen.save_to_file("data/graph_" + std::to_string(V) + "_low.gr",
+                        "low", V);
+
+        gen.generate_medium_density(V);
+        gen.save_to_file("data/graph_" + std::to_string(V) + "_medium.gr",
+                        "medium", V);
+
+        gen.generate_high_density(V);
+        gen.save_to_file("data/graph_" + std::to_string(V) + "_high.gr",
+                        "high", V);
+    }
+
+
+    std::cout << "\n✔ Todos los grafos fueron generados en /data\n";
+    return 0;
+}
