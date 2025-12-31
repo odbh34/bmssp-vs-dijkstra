@@ -2,7 +2,7 @@
 # Configuración
 # ===========================
 CXX      = g++
-CXXFLAGS = -O2 -std=c++17 -Wall -Iinclude
+CXXFLAGS = -std=c++17 -Iinclude
 LDFLAGS  =
 
 # ===========================
@@ -44,7 +44,7 @@ run: all
 	./$(BENCHMARK)
 	@echo "▶ Analizando resultados..."
 	python3 analysis/analyze_results.py
-
+	python3 analysis/find_breakpoints.py
 # ===========================
 # Limpieza
 # ===========================
