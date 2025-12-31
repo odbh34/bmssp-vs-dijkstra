@@ -6,15 +6,22 @@ import re
 # =====================================================
 # Configuración
 # =====================================================
-CSV_FILE = "../results/benchmark.csv"
-PLOTS_DIR = "../results/plots"
+import sys
+from pathlib import Path
 
-os.makedirs(PLOTS_DIR, exist_ok=True)
+# Obtener el directorio del script
+SCRIPT_DIR = Path(__file__).parent.absolute()
+PROJECT_ROOT = SCRIPT_DIR.parent
+
+CSV_FILE = PROJECT_ROOT / "results" / "benchmark_results.csv"
+PLOTS_DIR = PROJECT_ROOT / "results" / "plots"
+
+os.makedirs(str(PLOTS_DIR), exist_ok=True)
 
 # =====================================================
 # Cargar datos
 # =====================================================
-df = pd.read_csv(CSV_FILE)
+df = pd.read_csv(str(CSV_FILE))
 
 # =====================================================
 # Extraer V y densidad desde el nombre del grafo
@@ -39,7 +46,7 @@ df = df.dropna(subset=["V", "density"])
 for density in ["low", "medium", "high"]:
     plt.figure(figsize=(7, 5))
 
-    for algo in ["Dijkstra", "BMSSP"]:
+    for algo in ["Dijkstra", "BMSSP", "BellmanFord"]:
         data = df[
             (df["algorithm"] == algo) &
             (df["density"] == density)
@@ -60,10 +67,10 @@ for density in ["low", "medium", "high"]:
     plt.legend()
     plt.grid(True, which="both", linestyle="--", alpha=0.5)
 
-    out = f"{PLOTS_DIR}/time_{density}.png"
+    out = str(PLOTS_DIR / f"time_{density}.png")
     plt.savefig(out)
     plt.close()
-    print(f"✔ Guardado {out}")
+    print(f"Guardado {out}")
 
 # =====================================================
 # 2️⃣ DESVIACIÓN ESTÁNDAR vs |V| (por densidad)
@@ -71,7 +78,7 @@ for density in ["low", "medium", "high"]:
 for density in ["low", "medium", "high"]:
     plt.figure(figsize=(7, 5))
 
-    for algo in ["Dijkstra", "BMSSP"]:
+    for algo in ["Dijkstra", "BMSSP", "BellmanFord"]:
         data = df[
             (df["algorithm"] == algo) &
             (df["density"] == density)
@@ -92,10 +99,10 @@ for density in ["low", "medium", "high"]:
     plt.legend()
     plt.grid(True, which="both", linestyle="--", alpha=0.5)
 
-    out = f"{PLOTS_DIR}/stddev_{density}.png"
+    out = str(PLOTS_DIR / f"stddev_{density}.png")
     plt.savefig(out)
     plt.close()
-    print(f"✔ Guardado {out}")
+    print(f"Guardado {out}")
 
 # =====================================================
 # 3️⃣ INSTRUCCIONES vs |V| (por densidad)
@@ -103,7 +110,7 @@ for density in ["low", "medium", "high"]:
 for density in ["low", "medium", "high"]:
     plt.figure(figsize=(7, 5))
 
-    for algo in ["Dijkstra", "BMSSP"]:
+    for algo in ["Dijkstra", "BMSSP", "BellmanFord"]:
         data = df[
             (df["algorithm"] == algo) &
             (df["density"] == density)
@@ -124,9 +131,9 @@ for density in ["low", "medium", "high"]:
     plt.legend()
     plt.grid(True, which="both", linestyle="--", alpha=0.5)
 
-    out = f"{PLOTS_DIR}/instructions_{density}.png"
+    out = str(PLOTS_DIR / f"instructions_{density}.png")
     plt.savefig(out)
     plt.close()
-    print(f"✔ Guardado {out}")
+    print(f"Guardado {out}")
 
-print("\n🎉 Análisis completado. Revisa results/plots/")
+print("\nAnálisis completado. Revisa results/plots/")

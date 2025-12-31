@@ -15,23 +15,24 @@ int main() {
     std::vector<int> sizes = {100, 500, 1000, 5000};
     std::vector<std::string> densities = {"low", "medium", "high"};
 
-    GraphGenerator<T> gen(42);  // seed fijo para reproducibilidad
+    const unsigned SEED = 42;  // seed fijo para reproducibilidad
+    GraphGenerator<T> gen(SEED);
 
     for (int V : sizes) {
         gen.generate_low_density(V);
         gen.save_to_file("data/graph_" + std::to_string(V) + "_low.gr",
-                        "low", V);
+                        "low", SEED);
 
         gen.generate_medium_density(V);
         gen.save_to_file("data/graph_" + std::to_string(V) + "_medium.gr",
-                        "medium", V);
+                        "medium", SEED);
 
         gen.generate_high_density(V);
         gen.save_to_file("data/graph_" + std::to_string(V) + "_high.gr",
-                        "high", V);
+                        "high", SEED);
     }
 
 
-    std::cout << "\n✔ Todos los grafos fueron generados en /data\n";
+    std::cout << "\nTodos los grafos fueron generados en /data\n";
     return 0;
 }

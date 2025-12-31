@@ -1,6 +1,7 @@
 #include "graph_loader.hpp"
 #include "dijkstra.hpp"
 #include "bmssp.hpp"
+#include "bellman_ford.hpp"
 #include "metrics.hpp"
 
 #include <iostream>
@@ -50,7 +51,7 @@ double stddev(const std::vector<double>& v) {
 int main() {
     fs::create_directories("results");
 
-    std::ofstream csv("results/benchmark.csv");
+    std::ofstream csv("results/benchmark_results.csv");
     csv << "graph,algorithm,mean_ms,stddev_ms,instructions\n";
 
     const int REPS = 5;
@@ -131,14 +132,46 @@ int main() {
         spp::bmssp<T> bms_m(n, &mb);
         for (auto& e : edges)
             bms_m.addEdge(e.u, e.v, e.weight);
+        bms_m.prepare_graph(false);
         bms_m.execute(SOURCE);
 
         csv << graph_file << ",BMSSP,"
             << mean_bms << "," << sd_bms << ","
             << mb.count << "\n";
+
+        // =================================================
+        // === BELLMAN-FORD ===
+        // =================================================
+        std::vector<double> times_bf;
+
+        for (int i = 0; i < REPS; ++i) {
+            BellmanFord<T> bf(n);
+            for (auto& e : edges)
+                bf.add_edge(e.u, e.v, e.weight);
+
+            times_bf.push_back(
+                measure_time_ms([&]() {
+                    bf.execute(SOURCE);
+                })
+            );
+        }
+
+        double mean_bf = mean(times_bf);
+        double sd_bf   = stddev(times_bf);
+
+        // Instrucciones (una sola vez)
+        Metrics mbf;
+        BellmanFord<T> bf_m(n);
+        for (auto& e : edges)
+            bf_m.add_edge(e.u, e.v, e.weight);
+        bf_m.execute(SOURCE, &mbf);
+
+        csv << graph_file << ",BellmanFord,"
+            << mean_bf << "," << sd_bf << ","
+            << mbf.count << "\n";
     }
 
     csv.close();
-    std::cout << "\n✔ Benchmark finalizado. Resultados en results/benchmark.csv\n";
+    std::cout << "\nBenchmark finalizado. Resultados en results/benchmark_results.csv\n";
     return 0;
 }
