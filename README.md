@@ -170,7 +170,7 @@ make clean-all
 ## 📊 Metodología Experimental
 
 ### Tamaños de Grafos
-- **V = 100, 500, 1000, 5000** vértices
+- **V = 100, 500, 1000, 5000, 10000, 15000, 20000** vértices
 
 ### Densidades
 
