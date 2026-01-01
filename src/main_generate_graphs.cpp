@@ -12,7 +12,7 @@ int main() {
     // Crear carpetas si no existen
     fs::create_directories("data");
 
-    std::vector<int> sizes = {100, 500, 1000, 5000};
+    std::vector<int> sizes = {100, 500, 1000, 5000, 10000, 15000, 20000};
     std::vector<std::string> densities = {"low", "medium", "high"};
 
     const unsigned SEED = 42;  // seed fijo para reproducibilidad
