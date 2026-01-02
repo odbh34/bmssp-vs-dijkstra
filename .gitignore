@@ -7,7 +7,7 @@ benchmark
 
 # Resultados grandes (opcional)
 data/*.gr
-results/
+#results/
 
 # Python
 __pycache__/

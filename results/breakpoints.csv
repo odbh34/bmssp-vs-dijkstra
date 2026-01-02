@@ -1,0 +1,10 @@
+density,algorithm_A,algorithm_B,breakpoint_V
+medium,Dijkstra,BMSSP,1000.0
+medium,Dijkstra,BellmanFord,100.0
+medium,BMSSP,BellmanFord,100.0
+high,Dijkstra,BMSSP,500.0
+high,Dijkstra,BellmanFord,
+high,BMSSP,BellmanFord,
+low,Dijkstra,BMSSP,5000.0
+low,Dijkstra,BellmanFord,100.0
+low,BMSSP,BellmanFord,100.0
