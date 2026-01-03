@@ -2,7 +2,7 @@ import pandas as pd
 import re
 from pathlib import Path
 
-CSV_FILE = "results/benchmark.csv"
+CSV_FILE = "results/benchmark_results.csv"
 OUT_FILE = "results/breakpoints.csv"
 
 # -----------------------------------------

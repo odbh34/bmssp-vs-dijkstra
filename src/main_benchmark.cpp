@@ -110,10 +110,11 @@ int main() {
         // =================================================
         // === BMSSP ===
         // =================================================
+        const int K_BMSSP = 8;
         std::vector<double> times_bms;
 
         for (int i = 0; i < REPS; ++i) {
-            spp::bmssp<T> bms(n);
+            spp::bmssp<T> bms(n, K_BMSSP);
             for (auto& e : edges)
                 bms.addEdge(e.u, e.v, e.weight);
 
@@ -129,9 +130,10 @@ int main() {
         double sd_bms   = stddev(times_bms);
 
         Metrics mb;
-        spp::bmssp<T> bms_m(n, &mb);
+        spp::bmssp<T> bms_m(n, K_BMSSP, &mb);
         for (auto& e : edges)
             bms_m.addEdge(e.u, e.v, e.weight);
+
         bms_m.prepare_graph(false);
         bms_m.execute(SOURCE);
 
